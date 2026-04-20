@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioNova — Scaling FIRST Beyond Cities</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #FF3CAC;
+  --pink-light: #FF69B4;
+  --pink-pale: #FFB3D9;
+  --purple: #784BA0;
+  --purple-light: #C77DFF;
+  --bg: #FAFAFA;
+  --white: #FFFFFF;
+  --dark: #0D0D0D;
+  --gray: #6B7280;
+  --gray-light: #F3F0FF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 12px;
+}
+
+.nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  padding: 10px 16px;
+  border-radius: 50px;
+  box-shadow: 0 8px 32px rgba(255,60,172,0.25);
+  z-index: 1000;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 90vw;
+}
+
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.nav-dot.active { background: var(--pink); transform: scale(1.4); }
+
+.slide-counter {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple);
+  z-index: 1000;
+  letter-spacing: 0.5px;
+}
+
+.slide {
+  width: 960px;
+  min-height: 540px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  scroll-margin-top: 20px;
+}
+
+svg.hex-bg { position: absolute; pointer-events: none; }
+
+/* ========== SLIDE 1 ========== */
+.slide-1 { background: var(--white); display: flex; flex-direction: column; justify-content: center; padding: 60px 70px; }
+.slide-1 .tag { display: inline-block; border: 2px solid var(--pink); color: var(--dark); padding: 8px 18px; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; margin-bottom: 32px; width: fit-content; }
+.slide-1 h1 { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; line-height: 1.1; color: var(--dark); max-width: 650px; }
+.slide-1 .subtitle { margin-top: 20px; font-size: 18px; color: var(--gray); font-weight: 400; }
+.spark { position: absolute; top: 40px; left: 60px; width: 50px; height: 50px; }
+
+/* ========== SLIDE 2 ========== */
+.slide-2 { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; min-height: 540px; }
+.slide-2 .left { padding: 60px 50px; display: flex; flex-direction: column; justify-content: center; }
+.slide-2 .left h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; line-height: 1.15; color: var(--dark); margin-bottom: 20px; }
+.slide-2 .left p { font-size: 15px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
+.slide-2 .right { background: linear-gradient(135deg, #FF3CAC11, #784BA022); padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.situation-item { display: flex; align-items: center; gap: 14px; }
+.situation-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.situation-icon.green { background: #E8FFF0; }
+.situation-icon.red { background: #FFE8EE; }
+.situation-item span { font-size: 16px; font-weight: 500; color: var(--dark); }
+.problem-label { position: absolute; bottom: 30px; right: 30px; font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 900; color: #FF3CAC; opacity: 0.08; letter-spacing: -2px; }
+
+/* ========== SLIDE 3 ========== */
+.slide-3 { background: var(--white); padding: 55px 70px; display: flex; flex-direction: column; justify-content: center; }
+.slide-3 h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: var(--dark); margin-bottom: 40px; }
+.barriers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.barrier-card { border: 1.5px solid #F0E6FF; border-radius: 12px; padding: 22px 24px; position: relative; overflow: hidden; }
+.barrier-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--pink), var(--purple-light)); }
+.barrier-card h3 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.barrier-card p { font-size: 13px; color: var(--gray); line-height: 1.5; }
+.barrier-card .val { position: absolute; right: 18px; top: 18px; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--pink); }
+.cost-compare { margin-top: 28px; display: flex; gap: 24px; align-items: center; }
+.cost-box { flex: 1; border-radius: 12px; padding: 18px 22px; text-align: center; }
+.cost-box.city { background: #F0FFF4; border: 1.5px solid #86EFAC; }
+.cost-box.rural { background: #FFF0F0; border: 1.5px solid #FECACA; }
+.cost-box .amount { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.cost-box.city .amount { color: #16A34A; }
+.cost-box.rural .amount { color: #DC2626; }
+.cost-box .label { font-size: 12px; color: var(--gray); font-weight: 500; }
+.vs-badge { background: var(--pink); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; flex-shrink: 0; }
+
+/* ========== SLIDE 4 ========== */
+.slide-4 { background: var(--white); padding: 50px 70px; }
+.slide-4 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--dark); margin-bottom: 8px; }
+.slide-4 .sub { font-size: 14px; color: var(--gray); margin-bottom: 36px; }
+.survey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.survey-card { border: 1.5px solid #F0E6FF; border-radius: 12px; padding: 24px; }
+.survey-card h4 { font-size: 13px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 18px; }
+.donut-wrap { display: flex; align-items: center; gap: 20px; }
+.donut { width: 100px; height: 100px; flex-shrink: 0; }
+.legend-items { display: flex; flex-direction: column; gap: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--dark); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.insight-box { margin-top: 28px; background: linear-gradient(135deg, #FF3CAC08, #784BA012); border: 1.5px solid #FF3CAC30; border-radius: 12px; padding: 18px 24px; font-size: 14px; color: var(--dark); line-height: 1.6; }
+.insight-box strong { color: var(--pink); }
+
+/* ========== SLIDE 5 ========== */
+.slide-5 { background: var(--white); padding: 55px 70px; display: flex; flex-direction: column; justify-content: center; }
+.slide-5 h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: var(--dark); margin-bottom: 40px; text-align: center; }
+.cause-effect { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: center; }
+.cause-col, .effect-col { display: flex; flex-direction: column; gap: 0; }
+.cause-col h3, .effect-col h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); margin-bottom: 16px; text-align: center; }
+.cause-item, .effect-item { padding: 14px 18px; border-radius: 10px; margin-bottom: 10px; font-size: 14px; font-weight: 500; color: var(--dark); }
+.cause-item { background: #FFF0F8; border-left: 3px solid var(--pink); }
+.effect-item { background: #F5EEFF; border-left: 3px solid var(--purple-light); }
+.arrow-col { display: flex; align-items: center; justify-content: center; }
+
+/* ========== SLIDE 6 ========== */
+.slide-6 { background: var(--white); padding: 50px 60px; }
+.slide-6 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--dark); margin-bottom: 32px; text-align: center; }
+.three-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.col-card { border: 2px solid var(--pink); border-radius: 12px; padding: 24px 20px; position: relative; }
+.col-num { width: 36px; height: 36px; border-radius: 50%; background: var(--pink); color: white; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; margin-bottom: 16px; }
+.col-card h3 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.col-card ul { list-style: none; }
+.col-card ul li { font-size: 12.5px; color: var(--gray); padding: 4px 0; padding-left: 14px; position: relative; line-height: 1.4; }
+.col-card ul li::before { content: '•'; position: absolute; left: 0; color: var(--pink); }
+
+/* ========== SLIDE 7 ========== */
+.slide-7 { background: linear-gradient(135deg, #FAFAFA 60%, #FFF0F8); padding: 55px 70px; display: flex; flex-direction: column; justify-content: center; }
+.slide-7 h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: var(--dark); margin-bottom: 10px; }
+.slide-7 .solution-tag { display: inline-block; background: linear-gradient(135deg, var(--pink), var(--purple)); color: white; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 32px; }
+.solution-box { border: 2px solid var(--pink); border-radius: 16px; padding: 32px 36px; background: white; }
+.solution-box h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--dark); margin-bottom: 20px; text-align: center; }
+.solution-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.solution-feat { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: #FFF8FC; border-radius: 10px; }
+.feat-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--pink), var(--purple-light)); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.feat-text h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+.feat-text p { font-size: 12px; color: var(--gray); line-height: 1.4; }
+.solution-tagline { margin-top: 20px; text-align: center; font-size: 15px; color: var(--purple); font-weight: 600; font-style: italic; }
+
+/* ========== SLIDE 8 ========== */
+.slide-8 { background: var(--white); padding: 50px 60px; }
+.slide-8 h2 { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; color: var(--dark); margin-bottom: 36px; }
+.roadmap { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; position: relative; }
+.roadmap::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--purple-light)); z-index: 0; }
+.year-card { background: white; border: 1.5px solid #F0E6FF; border-radius: 12px; padding: 18px 14px; position: relative; z-index: 1; transition: transform 0.2s; }
+.year-card:hover { transform: translateY(-4px); }
+.year-dot { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--purple)); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+.year-card h4 { font-size: 13px; font-weight: 700; color: var(--dark); text-align: center; margin-bottom: 10px; }
+.year-card ul { list-style: none; }
+.year-card ul li { font-size: 11.5px; color: var(--gray); padding: 3px 0; border-bottom: 1px solid #F5F0FF; line-height: 1.4; }
+.year-card ul li:last-child { border-bottom: none; }
+.year-card .highlight { margin-top: 10px; background: linear-gradient(135deg, #FF3CAC, #784BA0); color: white; border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 700; text-align: center; }
+
+/* ========== SLIDE 9 ========== */
+.slide-9 { background: var(--white); padding: 50px 65px; }
+.slide-9 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--dark); margin-bottom: 32px; }
+.validation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.val-card { border: 1.5px solid #F0E6FF; border-radius: 12px; padding: 22px 24px; }
+.val-card .val-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); margin-bottom: 12px; }
+.val-card h4 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+.val-card p { font-size: 13px; color: var(--gray); line-height: 1.5; }
+.stat-row { display: flex; gap: 16px; margin-top: 12px; }
+.stat-pill { flex: 1; background: #FFF0F8; border-radius: 8px; padding: 10px 12px; text-align: center; }
+.stat-pill .num { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--pink); }
+.stat-pill .lbl { font-size: 10px; color: var(--gray); margin-top: 2px; }
+.barrier-bars { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.bar-item { display: flex; align-items: center; gap: 10px; }
+.bar-label { font-size: 11px; color: var(--gray); width: 120px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 8px; background: #F5F0FF; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--pink), var(--purple-light)); }
+.bar-pct { font-size: 11px; font-weight: 700; color: var(--pink); width: 32px; text-align: right; }
+
+/* ========== SLIDE 10 ========== */
+.slide-10 { background: linear-gradient(135deg, #0D0D0D 0%, #1a0a2e 100%); padding: 55px 70px; display: flex; flex-direction: column; justify-content: center; }
+.slide-10 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: white; margin-bottom: 36px; }
+.contrib-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.contrib-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 20px 14px; text-align: center; transition: all 0.3s; }
+.contrib-card:hover { background: rgba(255,60,172,0.15); border-color: var(--pink); }
+.contrib-card .icon { font-size: 28px; margin-bottom: 10px; }
+.contrib-card h4 { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.9); line-height: 1.4; margin-bottom: 8px; }
+.contrib-card .metric { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--pink); }
+
+/* ========== SLIDE 11 ========== */
+.slide-11 { background: var(--white); padding: 50px 65px; }
+.slide-11 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--dark); margin-bottom: 32px; }
+.practicality-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 28px; }
+.steps-list { display: flex; flex-direction: column; gap: 12px; }
+.step-item { display: flex; align-items: flex-start; gap: 16px; padding: 14px 18px; background: #FAFAFA; border-radius: 10px; border-left: 3px solid var(--pink); }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--pink); color: white; font-weight: 900; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-text h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+.step-text p { font-size: 12px; color: var(--gray); }
+.responsible-box { background: linear-gradient(135deg, #FF3CAC12, #784BA018); border: 1.5px solid var(--pink-pale); border-radius: 12px; padding: 24px 20px; }
+.responsible-box h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.partner-tag { display: inline-block; background: white; border: 1.5px solid var(--pink-pale); border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--purple); margin: 4px; }
+
+/* ========== SLIDE 12 ========== */
+.slide-12 { background: var(--white); padding: 50px 65px; }
+.slide-12 h2 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; color: var(--dark); margin-bottom: 30px; }
+.risk-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+.risk-table thead tr th { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray); padding: 10px 16px; text-align: left; }
+.risk-table tbody tr { background: #FAFAFA; border-radius: 10px; }
+.risk-table tbody tr td { padding: 14px 16px; font-size: 13px; color: var(--dark); }
+.risk-table tbody tr td:first-child { border-radius: 10px 0 0 10px; font-weight: 600; }
+.risk-table tbody tr td:last-child { border-radius: 0 10px 10px 0; color: var(--gray); }
+.risk-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.risk-badge.high { background: #FFE8E8; color: #DC2626; }
+.risk-badge.med { background: #FFF3E0; color: #D97706; }
+.risk-badge.low { background: #E8FFF0; color: #16A34A; }
+
+/* ========== SLIDE 13 ========== */
+.slide-13 { background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%); padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; }
+.slide-13 .conclusion-box { background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 36px 40px; max-width: 520px; }
+.slide-13 .conclusion-box ul { list-style: none; }
+.slide-13 .conclusion-box ul li { font-size: 17px; font-weight: 500; color: white; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 12px; }
+.slide-13 .conclusion-box ul li:last-child { border-bottom: none; }
+.slide-13 .arrow-tag { font-size: 18px; }
+.slide-13 h2 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: white; position: absolute; right: 70px; bottom: 60px; text-align: right; line-height: 1.2; max-width: 320px; }
+.slide-13 .tagline { color: rgba(255,255,255,0.8); font-size: 16px; margin-top: 20px; line-height: 1.6; font-style: italic; }
+
+/* ========== SLIDE 14 ========== */
+.slide-14 { background: var(--white); padding: 55px 70px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.slide-14 h2 { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; color: var(--dark); margin-bottom: 40px; }
+.contacts-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; }
+.contact-card { border: 2px solid var(--pink-pale); border-radius: 14px; padding: 28px 24px; text-align: center; transition: all 0.3s; }
+.contact-card:hover { border-color: var(--pink); transform: translateY(-4px); }
+.contact-icon-circle { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--purple)); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 22px; }
+.contact-card h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+.contact-card p { font-size: 13px; color: var(--purple); font-weight: 500; }
+
+/* ========== SLIDE 15 — TEAM ROLES ========== */
+.slide-15 {
+  background: var(--white);
+  padding: 50px 60px;
+}
+.slide-15 h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.slide-15 .sub {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 36px;
+}
+.team-roles-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+.role-card {
+  border: 1.5px solid #F0E6FF;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.role-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(255,60,172,0.18);
+}
+.role-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.role-initials {
+  width: 100%;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: white;
+}
+.role-info {
+  padding: 14px 10px;
+  text-align: center;
+  width: 100%;
+}
+.role-info h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.role-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #FF3CAC15, #784BA015);
+  border: 1px solid #FFB3D9;
+  border-radius: 20px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--purple);
+}
+
+/* ========== SLIDE 16 — MVP ========== */
+.slide-16 {
+  background: var(--white);
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+}
+.slide-16 h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.slide-16 .mvp-sub {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 28px;
+}
+.mvp-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.mvp-screenshots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.mvp-screen {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid #F0E6FF;
+  position: relative;
+  aspect-ratio: 9/16;
+  background: #F5F0FF;
+}
+.mvp-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.mvp-screen-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(10,10,30,0.85), transparent);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 14px 8px 6px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.mvp-screen-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px;
+  font-size: 24px;
+}
+.mvp-screen-placeholder span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray);
+}
+.mvp-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mvp-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(255,60,172,0.35);
+  transition: opacity 0.2s, transform 0.2s;
+  letter-spacing: 0.3px;
+}
+.mvp-link-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+.mvp-info-card {
+  background: linear-gradient(135deg, #FF3CAC08, #784BA012);
+  border: 1.5px solid #FFB3D930;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.mvp-info-card h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mvp-info-card p {
+  font-size: 12px;
+  color: var(--gray);
+  line-height: 1.55;
+}
+.mvp-key-idea {
+  background: white;
+  border: 2px solid var(--pink);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.5;
+}
+.mvp-key-idea strong { color: var(--pink); }
+.mvp-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.mvp-stat {
+  background: #FFF0F8;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.mvp-stat .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--pink);
+}
+.mvp-stat .lbl { font-size: 9px; color: var(--gray); margin-top: 2px; font-weight: 600; }
+.mvp-stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mvp-stack-tag {
+  background: #F0E6FF;
+  color: var(--purple);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media print {
+  body { background: white; }
+  .nav, .slide-counter { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="slide-counter" id="counter">1 / 16</div>
+
+<!-- ===== SLIDE 1 ===== -->
+<div class="slide slide-1" id="s1">
+  <svg class="spark" viewBox="0 0 50 50" fill="none">
+    <circle cx="25" cy="25" r="2" fill="#FF3CAC"/>
+    <line x1="25" y1="0" x2="25" y2="12" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="25" y1="38" x2="25" y2="50" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="0" y1="25" x2="12" y2="25" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="38" y1="25" x2="50" y2="25" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="7" y1="7" x2="15" y2="15" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="35" y1="35" x2="43" y2="43" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="43" y1="7" x2="35" y2="15" stroke="#FF3CAC" stroke-width="1.5"/>
+    <line x1="7" y1="43" x2="15" y2="35" stroke="#FF3CAC" stroke-width="1.5"/>
+  </svg>
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:220px;height:200px;opacity:0.15" viewBox="0 0 220 200">
+    <defs><pattern id="hex1" x="0" y="0" width="52" height="60" patternUnits="userSpaceOnUse">
+      <polygon points="26,2 50,16 50,44 26,58 2,44 2,16" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="220" height="200" fill="url(#hex1)"/>
+  </svg>
+  <div class="tag">Girls Go FIRST Case Championship</div>
+  <h1>Scaling FIRST<br/>beyond cities:<br/>from teams to system</h1>
+  <p class="subtitle">Presented by BioNova</p>
+</div>
+
+<!-- ===== SLIDE 2 ===== -->
+<div class="slide slide-2" id="s2">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:180px;height:160px;opacity:0.12" viewBox="0 0 180 160">
+    <defs><pattern id="hex2" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#FF69B4" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="180" height="160" fill="url(#hex2)"/>
+  </svg>
+  <div class="left">
+    <h2>Ключевая проблема: неравный доступ к FIRST в сельских школах</h2>
+    <p><strong>Причина:</strong> не отсутствие интереса, а <em>неработающая экономическая модель</em></p>
+    <p>FIRST работает в городах. В сёлах — ломается. Проблема не в детях, а в системе доставки.</p>
+  </div>
+  <div class="right">
+    <div class="situation-item"><div class="situation-icon green">✅</div><span>Работает в городах</span></div>
+    <div class="situation-item"><div class="situation-icon red">❌</div><span>Ломается в сёлах</span></div>
+    <div style="margin-top:20px;padding-top:20px;border-top:1px solid #FFD6EC">
+      <p style="font-size:13px;color:#6B7280;margin-bottom:10px;">Масштаб неравенства:</p>
+      <p style="font-size:14px;color:#0D0D0D;font-weight:600;">• 7 800+ школ в Казахстане</p>
+      <p style="font-size:14px;color:#0D0D0D;font-weight:600;">• 50%+ школьников — сельские</p>
+      <p style="font-size:14px;color:#0D0D0D;font-weight:600;">• &lt;0.05% охвата FIRST</p>
+    </div>
+  </div>
+  <div class="problem-label">Проблема</div>
+</div>
+
+<!-- ===== SLIDE 3 ===== -->
+<div class="slide slide-3" id="s3">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:200px;height:180px;opacity:0.1" viewBox="0 0 200 180">
+    <defs><pattern id="hex3" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#C77DFF" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex3)"/>
+  </svg>
+  <h2>Факты и барьеры</h2>
+  <div class="barriers-grid">
+    <div class="barrier-card"><div class="val">~2 млн ₸</div><h3>💸 Высокая стоимость</h3><p>Запуск одной FTC команды стоит 1.9–2.3 млн ₸. Сельские школы могут позволить себе максимум 200 000 ₸.</p></div>
+    <div class="barrier-card"><div class="val">0</div><h3>👨‍🏫 Нет менторов</h3><p>В 70% сельских регионов нет квалифицированных менторов FIRST. Подготовка требует времени и денег.</p></div>
+    <div class="barrier-card"><div class="val">+150%</div><h3>🚌 Логистика</h3><p>Поездки на соревнования добавляют 100–150% к базовой стоимости. «Налог удалённости» для сельских команд.</p></div>
+    <div class="barrier-card"><div class="val">1–3 г</div><h3>📉 Нестабильное финансирование</h3><p>Большинство сельских команд живут 1–3 года — до тех пор, пока не закончится грант или не уйдёт учитель.</p></div>
+  </div>
+  <div class="cost-compare">
+    <div class="cost-box city"><div class="amount">350 000 ₸</div><div class="label">🏙️ Город / ученик</div></div>
+    <div class="vs-badge">VS</div>
+    <div class="cost-box rural"><div class="amount">700 000 ₸</div><div class="label">🌾 Село / ученик</div></div>
+    <div style="flex:1;padding:14px;background:#FFF0F8;border-radius:10px;border:1.5px solid #FFB3D9;text-align:center">
+      <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:#FF3CAC;">×2</div>
+      <div style="font-size:12px;color:#6B7280;">разница в стоимости</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 4 ===== -->
+<div class="slide slide-4" id="s4">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:180px;height:160px;opacity:0.1" viewBox="0 0 180 160">
+    <defs><pattern id="hex4" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#C77DFF" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="180" height="160" fill="url(#hex4)"/>
+  </svg>
+  <h2>Спрос и барьеры</h2>
+  <p class="sub">Результаты опроса — 30 участников</p>
+  <div class="survey-grid">
+    <div class="survey-card">
+      <h4>Знаете ли вы о программе FIRST?</h4>
+      <div class="donut-wrap">
+        <svg class="donut" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#f5f0ff" stroke-width="3.8"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#FF3CAC" stroke-width="3.8" stroke-dasharray="33.3 66.7" stroke-dashoffset="25" transform="rotate(-90 18 18)"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#C77DFF" stroke-width="3.8" stroke-dasharray="36.7 63.3" stroke-dashoffset="-8.3" transform="rotate(-90 18 18)"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#FFB3D9" stroke-width="3.8" stroke-dasharray="30 70" stroke-dashoffset="-45" transform="rotate(-90 18 18)"/>
+          <text x="18" y="20" text-anchor="middle" font-size="5" font-weight="bold" fill="#FF3CAC">70%</text>
+        </svg>
+        <div class="legend-items">
+          <div class="legend-item"><div class="legend-dot" style="background:#FF3CAC"></div>Активно участвуют — 33.3%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C77DFF"></div>Слышали, не участвуют — 36.7%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#FFB3D9"></div>Впервые слышат — 30%</div>
+        </div>
+      </div>
+    </div>
+    <div class="survey-card">
+      <h4>Есть ли возможность участвовать в FIRST?</h4>
+      <div class="donut-wrap">
+        <svg class="donut" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#f5f0ff" stroke-width="3.8"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#FF3CAC" stroke-width="3.8" stroke-dasharray="26.7 73.3" stroke-dashoffset="25" transform="rotate(-90 18 18)"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#C77DFF" stroke-width="3.8" stroke-dasharray="30 70" stroke-dashoffset="-1.7" transform="rotate(-90 18 18)"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#FF9F45" stroke-width="3.8" stroke-dasharray="20 80" stroke-dashoffset="-31.7" transform="rotate(-90 18 18)"/>
+          <circle cx="18" cy="18" r="15.9" fill="transparent" stroke="#86EFAC" stroke-width="3.8" stroke-dasharray="23.3 76.7" stroke-dashoffset="-51.7" transform="rotate(-90 18 18)"/>
+          <text x="18" y="20" text-anchor="middle" font-size="4.5" font-weight="bold" fill="#FF3CAC">26.7%</text>
+        </svg>
+        <div class="legend-items">
+          <div class="legend-item"><div class="legend-dot" style="background:#FF3CAC"></div>Да, есть команда — 26.7%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C77DFF"></div>Есть, но ограничен — 30%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#FF9F45"></div>Нет возможности — 20%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#86EFAC"></div>Не знаю — 23.3%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="insight-box">
+    <strong>Вывод:</strong> Спрос на участие есть — почти 70% знают о программе, но только треть имеют реальную возможность участвовать. Основные барьеры — высокая стоимость, сложная логистика и недостаток информации.
+  </div>
+</div>
+
+<!-- ===== SLIDE 5 ===== -->
+<div class="slide slide-5" id="s5">
+  <h2>Причина и последствия</h2>
+  <div class="cause-effect">
+    <div class="cause-col">
+      <h3>Причины</h3>
+      <div class="cause-item">Каждая школа — изолированная команда</div>
+      <div class="cause-item">Отдельное оборудование для каждой</div>
+      <div class="cause-item">Нет централизованных менторов</div>
+      <div class="cause-item">Высокие логистические расходы</div>
+      <div class="cause-item">Нестабильное финансирование</div>
+    </div>
+    <div class="arrow-col">
+      <svg width="40" height="100" viewBox="0 0 40 100" fill="none">
+        <path d="M20 0 L20 80 M8 68 L20 82 L32 68" stroke="#FF3CAC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="effect-col">
+      <h3>Последствия</h3>
+      <div class="effect-item">Команды живут 1–3 года</div>
+      <div class="effect-item">Высокий dropout учеников</div>
+      <div class="effect-item">&lt;0.05% охвата потенциала</div>
+      <div class="effect-item">Рост образовательного неравенства</div>
+      <div class="effect-item" style="background:#FF3CAC10;border-left:3px solid #FF3CAC;font-weight:700">Масштабирование через команды → тупик</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 6 ===== -->
+<div class="slide slide-6" id="s6">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:160px;height:140px;opacity:0.1" viewBox="0 0 160 140">
+    <defs><pattern id="hex6" x="0" y="0" width="40" height="46" patternUnits="userSpaceOnUse">
+      <polygon points="20,2 38,12 38,34 20,44 2,34 2,12" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="160" height="140" fill="url(#hex6)"/>
+  </svg>
+  <h2>Суть проблемы</h2>
+  <div class="three-cols">
+    <div class="col-card"><div class="col-num">01</div><h3>Сейчас</h3><ul><li>Каждая школа → своя команда</li><li>Отдельное оборудование</li><li>Нет централизованных менторов</li><li>Высокие логистические расходы</li><li>Нестабильное финансирование</li></ul></div>
+    <div class="col-card"><div class="col-num">02</div><h3>Последствия</h3><ul><li>Команды живут 1–3 года</li><li>Высокий dropout учеников</li><li>&lt;0.05% охвата потенциала</li><li>Рост неравенства</li><li>70% команд распадаются за 3 года</li></ul></div>
+    <div class="col-card" style="background:#FFF8FC"><div class="col-num">03</div><h3>Вывод</h3><ul><li>Ресурсы неэффективны</li><li>Масштабирование через команды не работает</li><li>Нужна новая архитектура</li><li>Система вместо изолированных единиц</li></ul></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 7 ===== -->
+<div class="slide slide-7" id="s7">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:200px;height:180px;opacity:0.12" viewBox="0 0 200 180">
+    <defs><pattern id="hex7" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex7)"/>
+  </svg>
+  <h2>Решение</h2>
+  <div class="solution-tag">Hybrid Hub Model</div>
+  <div class="solution-box">
+    <h3>1 хаб = 5–10 школ = Система</h3>
+    <div class="solution-features">
+      <div class="solution-feat"><div class="feat-icon">🏢</div><div class="feat-text"><h4>Районный хаб</h4><p>Координационный центр в районной столице обслуживает 5–10 ближайших школ</p></div></div>
+      <div class="solution-feat"><div class="feat-icon">🔧</div><div class="feat-text"><h4>Shared Resources</h4><p>Одно оборудование (2 млн ₸) — на весь хаб, а не отдельно для каждой школы</p></div></div>
+      <div class="solution-feat"><div class="feat-icon">👨‍🏫</div><div class="feat-text"><h4>Централизованные менторы</h4><p>1 обученный ментор ведёт все команды хаба + онлайн-поддержка из города</p></div></div>
+      <div class="solution-feat"><div class="feat-icon">🔄</div><div class="feat-text"><h4>Ротационные команды</h4><p>Команды приезжают 2×/неделю. Знания и ментор остаются — система не зависит от одного человека</p></div></div>
+    </div>
+    <p class="solution-tagline">Мы не создаём больше команд — мы создаём инфраструктуру, которая их рождает</p>
+  </div>
+</div>
+
+<!-- ===== SLIDE 8 ===== -->
+<div class="slide slide-8" id="s8">
+  <h2>План масштабирования — 5 лет</h2>
+  <div class="roadmap">
+    <div class="year-card"><div class="year-dot">Г1</div><h4>Пилот</h4><ul><li>3 хаба</li><li>Туркестан, Жамбыл, Жетісу</li><li>150–200 учеников</li><li>Бюджет: 30 млн ₸</li><li>Samruk-Kazyna грант</li></ul><div class="highlight">Тест модели</div></div>
+    <div class="year-card"><div class="year-dot">Г2</div><h4>Итерация</h4><ul><li>7 хабов (+4)</li><li>МОУ с Daryn</li><li>400 учеников</li><li>Бюджет: 50 млн ₸</li><li>Онлайн-платформа</li></ul><div class="highlight">Фиксируем ошибки</div></div>
+    <div class="year-card"><div class="year-dot">Г3</div><h4>Рост</h4><ul><li>15 хабов</li><li>Интеграция Daryn</li><li>1 000 учеников</li><li>Бюджет: 80 млн ₸</li><li>Cost: 150 000 ₸/уч.</li></ul><div class="highlight">Break-even!</div></div>
+    <div class="year-card"><div class="year-dot">Г4</div><h4>Регионы</h4><ul><li>30 хабов</li><li>Все 14 регионов</li><li>2 500 учеников</li><li>Бюджет: 130 млн ₸</li><li>Local sponsors 40%</li></ul><div class="highlight">Нац. охват</div></div>
+    <div class="year-card"><div class="year-dot">Г5</div><h4>Масштаб</h4><ul><li>50 хабов</li><li>5 000+ учеников</li><li>Бюджет: 200 млн ₸</li><li>Cost: 100 000 ₸/уч.</li><li>Self-sustaining 60%</li></ul><div class="highlight">Система!</div></div>
+  </div>
+  <div style="margin-top:20px;padding:16px 20px;background:#FFF0F8;border-radius:10px;border:1.5px solid #FFB3D9;font-size:13px;color:#6B7280;">
+    ⚠️ <strong style="color:#FF3CAC">Реалистичный подход:</strong> 3 хаба в год 1 (не 5) — Туркестан, Жамбыл и Жетісу выбраны за плотность сельских школ. Рост постепенный, с итерациями после каждого этапа.
+  </div>
+</div>
+
+<!-- ===== SLIDE 9 ===== -->
+<div class="slide slide-9" id="s9">
+  <svg class="hex-bg" style="top:-10px;left:-10px;width:200px;height:180px;opacity:0.1;transform:scaleX(-1)" viewBox="0 0 200 180">
+    <defs><pattern id="hex9" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#C77DFF" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex9)"/>
+  </svg>
+  <h2>Валидация</h2>
+  <div class="validation-grid">
+    <div class="val-card">
+      <div class="val-type">📊 Опрос</div>
+      <h4>30 участников, 5 регионов</h4>
+      <div class="stat-row">
+        <div class="stat-pill"><div class="num">70%</div><div class="lbl">Знают о FIRST</div></div>
+        <div class="stat-pill"><div class="num">30%</div><div class="lbl">Могут участвовать</div></div>
+      </div>
+      <div class="barrier-bars" style="margin-top:16px">
+        <div class="bar-item"><div class="bar-label">Стоимость</div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><div class="bar-pct">20%</div></div>
+        <div class="bar-item"><div class="bar-label">Логистика</div><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><div class="bar-pct">20%</div></div>
+        <div class="bar-item"><div class="bar-label">Нет информации</div><div class="bar-track"><div class="bar-fill" style="width:26.7%"></div></div><div class="bar-pct">26.7%</div></div>
+        <div class="bar-item"><div class="bar-label">Нет менторов</div><div class="bar-track"><div class="bar-fill" style="width:16.7%"></div></div><div class="bar-pct">16.7%</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="val-card"><div class="val-type">🎙️ Интервью с учителями</div><h4>2 учителя из сельских школ</h4><p>Главная проблема: <strong>отсутствие менторов</strong>. Учителя хотят вести команды, но не имеют подготовки.</p></div>
+      <div class="val-card"><div class="val-type">🤖 Фидбэк команды FTC</div><h4>1 команда — высокая стоимость и логистика</h4><p>«Основные проблемы — не нежелание участвовать, а финансовый и логистический барьеры.»</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10 ===== -->
+<div class="slide slide-10" id="s10">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:200px;height:180px;opacity:0.15" viewBox="0 0 200 180">
+    <defs><pattern id="hex10" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex10)"/>
+  </svg>
+  <h2>Вклад в FIRST Kazakhstan</h2>
+  <div class="contrib-grid">
+    <div class="contrib-card"><div class="icon">📈</div><h4>Количество команд через хабы</h4><div class="metric">50 → 150+</div></div>
+    <div class="contrib-card"><div class="icon">💰</div><h4>Снижение входного барьера</h4><div class="metric">×2 дешевле</div></div>
+    <div class="contrib-card"><div class="icon">🌾</div><h4>Сельские школы — доступ</h4><div class="metric">10+ регионов</div></div>
+    <div class="contrib-card"><div class="icon">⏱️</div><h4>Удержание участников</h4><div class="metric">1–3 → 5+ лет</div></div>
+    <div class="contrib-card"><div class="icon">🏗️</div><h4>Система, а не команды</h4><div class="metric">Инфраструктура</div></div>
+  </div>
+  <div style="margin-top:24px;padding:16px 20px;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid rgba(255,255,255,0.15)">
+    <p style="color:rgba(255,255,255,0.8);font-size:14px;line-height:1.6">Стоимость на ученика: <strong style="color:#FF3CAC">700 000 ₸ → 100 000 ₸</strong> &nbsp;|&nbsp; Охват учеников: <strong style="color:#FF3CAC">3 000 → 5 000+</strong> &nbsp;|&nbsp; Менторы в регионах: <strong style="color:#FF3CAC">5–10 → 30+</strong></p>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11 ===== -->
+<div class="slide slide-11" id="s11">
+  <svg class="hex-bg" style="bottom:-10px;right:-10px;width:180px;height:160px;opacity:0.1" viewBox="0 0 180 160">
+    <defs><pattern id="hex11" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#784BA0" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="180" height="160" fill="url(#hex11)"/>
+  </svg>
+  <h2>Практичность</h2>
+  <div class="practicality-layout">
+    <div>
+      <p style="font-weight:700;font-size:15px;color:#0D0D0D;margin-bottom:16px">Старт можно запустить сразу:</p>
+      <div class="steps-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-text"><h4>Выбрать 3 региона</h4><p>Туркестанская обл., Жамбыл, Жетісу — высокая плотность сельских школ</p></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-text"><h4>Открыть хабы</h4><p>На базе существующих школ / Astana Hub — без новой инфраструктуры</p></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-text"><h4>Нанять 2 ментора на хаб</h4><p>3-месячный интенсив + еженедельная онлайн-поддержка от городских менторов</p></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-text"><h4>Подключить 5–10 школ</h4><p>Подписание МОУ с Daryn и локальными акиматами</p></div></div>
+        <div class="step-item"><div class="step-num">5</div><div class="step-text"><h4>Запустить команды</h4><p>Первые соревнования — через 6 месяцев после старта</p></div></div>
+      </div>
+    </div>
+    <div class="responsible-box">
+      <h4>Ответственные</h4>
+      <span class="partner-tag">FIRST Kazakhstan</span><span class="partner-tag">Daryn</span><span class="partner-tag">Astana Hub</span><span class="partner-tag">Локальные акиматы</span><span class="partner-tag">Samruk-Kazyna</span>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #FFD6EC">
+        <p style="font-size:12px;font-weight:700;color:#0D0D0D;margin-bottom:10px">Финансирование Год 1:</p>
+        <p style="font-size:12px;color:#6B7280">Samruk-Kazyna: 18 млн ₸</p>
+        <p style="font-size:12px;color:#6B7280">Daryn: 8 млн ₸</p>
+        <p style="font-size:12px;color:#6B7280">Акиматы: 4 млн ₸</p>
+        <p style="font-size:13px;font-weight:700;color:#FF3CAC;margin-top:8px">Итого: 30 млн ₸ ✓</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12 ===== -->
+<div class="slide slide-12" id="s12">
+  <h2>Риски и решения</h2>
+  <table class="risk-table">
+    <thead><tr><th>Риск</th><th>Вероятность</th><th>Влияние</th><th>Решение</th></tr></thead>
+    <tbody>
+      <tr><td>❌ Нет квалифицированных менторов в регионах</td><td><span class="risk-badge high">Высокая</span></td><td><span class="risk-badge high">Высокое</span></td><td>Онлайн-платформа + 3-мес. интенсив + city mentor поддержка</td></tr>
+      <tr><td>💸 Сокращение бюджетов спонсоров</td><td><span class="risk-badge med">Средняя</span></td><td><span class="risk-badge high">Высокое</span></td><td>Multi-funding: гос + бизнес + родители (не зависит от 1 источника)</td></tr>
+      <tr><td>📉 Слабые команды, низкое качество</td><td><span class="risk-badge med">Средняя</span></td><td><span class="risk-badge med">Среднее</span></td><td>Структурированная учебная программа + поддержка городских команд</td></tr>
+      <tr><td>🚌 Логистика — школы не могут приезжать</td><td><span class="risk-badge low">Низкая</span></td><td><span class="risk-badge med">Среднее</span></td><td>Локальные хабы (максимум 30–50 км) + shared transport договоры</td></tr>
+      <tr><td>👨‍🏫 Школы отказываются участвовать</td><td><span class="risk-badge low">Низкая</span></td><td><span class="risk-badge high">Высокое</span></td><td>Мандат МОН + финансовые стимулы + успешные кейсы пилота</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== SLIDE 13 ===== -->
+<div class="slide slide-13" id="s13">
+  <svg style="position:absolute;top:-10px;right:-10px;width:200px;height:180px;opacity:0.2" viewBox="0 0 200 180">
+    <defs><pattern id="hex13" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="white" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex13)"/>
+  </svg>
+  <div class="conclusion-box">
+    <ul>
+      <li><span class="arrow-tag">❌</span> Масштабирование через команды → тупик</li>
+      <li><span class="arrow-tag">✅</span> Масштабирование через хабы → система</li>
+    </ul>
+    <p class="tagline">Мы не создаём больше команд — мы создаём инфраструктуру, которая их рождает</p>
+  </div>
+  <h2>Главный вывод для жюри ✨</h2>
+</div>
+
+<!-- ===== SLIDE 14 ===== -->
+<div class="slide slide-14" id="s14">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:200px;height:180px;opacity:0.1" viewBox="0 0 200 180">
+    <defs><pattern id="hex14" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex14)"/>
+  </svg>
+  <h2>BioNova</h2>
+  <div class="contacts-grid">
+    <div class="contact-card"><div class="contact-icon-circle">✉️</div><h4>Email</h4><p>ryskalilailim@gmail.com</p><p style="font-size:11px;color:#9CA3AF;margin-top:4px">Founder</p></div>
+    <div class="contact-card"><div class="contact-icon-circle">📸</div><h4>Instagram</h4><p>@bionova_team</p></div>
+    <div class="contact-card"><div class="contact-icon-circle">✈️</div><h4>Telegram</h4><p>@bionova_kz</p></div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 15 — TEAM ROLES ===== -->
+<div class="slide slide-15" id="s15">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:200px;height:180px;opacity:0.1" viewBox="0 0 200 180">
+    <defs><pattern id="hex15" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#FF3CAC" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="200" height="180" fill="url(#hex15)"/>
+  </svg>
+  <h2>Распределение ролей</h2>
+  <p class="sub">Вклад каждого участника команды BioNova</p>
+  <div class="team-roles-grid">
+
+    <!-- Lailim -->
+    <div class="role-card">
+      <img class="role-photo" src="лайлым.jpg" alt="Lailim"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="role-initials" style="display:none;background:linear-gradient(135deg,#FF3CAC,#784BA0);">Л</div>
+      <div class="role-info">
+        <h4>Lailim</h4>
+        <div class="role-tags">
+          <span class="role-tag">Research</span>
+          <span class="role-tag">Presentation</span>
+          <span class="role-tag">Pitcher</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inabat -->
+    <div class="role-card">
+      <img class="role-photo" src="инок.jpg" alt="Inabat"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="role-initials" style="display:none;background:linear-gradient(135deg,#4776E6,#8E54E9);">И</div>
+      <div class="role-info">
+        <h4>Inabat</h4>
+        <div class="role-tags">
+          <span class="role-tag">Pitch Video</span>
+          <span class="role-tag">Pitcher</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Khabiba -->
+    <div class="role-card">
+      <img class="role-photo" src="хабиба.jpg" alt="Khabiba"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="role-initials" style="display:none;background:linear-gradient(135deg,#f7971e,#ffd200);">Х</div>
+      <div class="role-info">
+        <h4>Khabiba</h4>
+        <div class="role-tags">
+          <span class="role-tag">Pitcher</span>
+          <span class="role-tag">Survey Creator</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gulnaz -->
+    <div class="role-card">
+      <img class="role-photo" src="гулназ.jpg" alt="Gulnaz"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="role-initials" style="display:none;background:linear-gradient(135deg,#11998e,#38ef7d);">Г</div>
+      <div class="role-info">
+        <h4>Gulnaz</h4>
+        <div class="role-tags">
+          <span class="role-tag">Research</span>
+          <span class="role-tag">Presentation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sanzhar -->
+    <div class="role-card">
+      <img class="role-photo" src="санжар.jpg" alt="Sanzhar"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="role-initials" style="display:none;background:linear-gradient(135deg,#c94b4b,#4b134f);">С</div>
+      <div class="role-info">
+        <h4>Sanzhar</h4>
+        <div class="role-tags">
+          <span class="role-tag">MVP Dev</span>
+          <span class="role-tag">Presentation</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SLIDE 16 — MVP ===== -->
+<div class="slide slide-16" id="s16">
+  <svg class="hex-bg" style="top:-10px;right:-10px;width:180px;height:160px;opacity:0.1" viewBox="0 0 180 160">
+    <defs><pattern id="hex16" x="0" y="0" width="44" height="52" patternUnits="userSpaceOnUse">
+      <polygon points="22,2 42,14 42,38 22,50 2,38 2,14" fill="none" stroke="#C77DFF" stroke-width="1.5"/>
+    </pattern></defs>
+    <rect width="180" height="160" fill="url(#hex16)"/>
+  </svg>
+  <h2>🤖 MVP — Hub Model Platform</h2>
+  <p class="mvp-sub">Интерактивная платформа, доказывающая экономическую модель хабов</p>
+  <div class="mvp-layout">
+
+    <!-- Left: screenshots -->
+    <div class="mvp-screenshots">
+      <div class="mvp-screen">
+        <img src="1стра.jpg" alt="Проблема"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="mvp-screen-placeholder" style="display:none;">⚠️<span>Проблема</span></div>
+        <div class="mvp-screen-label">Проблема</div>
+      </div>
+      <div class="mvp-screen">
+        <img src="2стра.jpg" alt="Финансы"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="mvp-screen-placeholder" style="display:none;">📊<span>Финансы</span></div>
+        <div class="mvp-screen-label">Финансы</div>
+      </div>
+      <div class="mvp-screen">
+        <img src="3стра.jpg" alt="Решение"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="mvp-screen-placeholder" style="display:none;">🏗️<span>Решение</span></div>
+        <div class="mvp-screen-label">Решение</div>
+      </div>
+      <div class="mvp-screen">
+        <img src="4стра.jpg" alt="Команда"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="mvp-screen-placeholder" style="display:none;">👥<span>Команда</span></div>
+        <div class="mvp-screen-label">Команда</div>
+      </div>
+    </div>
+
+    <!-- Right: info -->
+    <div class="mvp-right">
+      <a href="https://global-app-hub--ryskulbeksanzar.replit.app" target="_blank" class="mvp-link-btn">
+        🚀 Открыть MVP-платформу ↗
+      </a>
+
+      <div class="mvp-key-idea">
+        💡 <strong>1 хаб = 5–10 школ</strong> — стоимость на ученика снижается с <strong>700 000 ₸</strong> до <strong>~100 000 ₸</strong>
+      </div>
+
+      <div class="mvp-info-card">
+        <h4>🎯 О проекте</h4>
+        <p>Интерактивная MVP-платформа для Girls Go FIRST Case Championship. Решает проблему неравного доступа к FIRST в сельских школах через модель хабов. Встроенный AI-ассистент на базе Claude API.</p>
+      </div>
+
+      <div class="mvp-stats-row">
+        <div class="mvp-stat"><div class="num">700k→100k</div><div class="lbl">Стоимость / ученик</div></div>
+        <div class="mvp-stat"><div class="num">5 000+</div><div class="lbl">Учеников (Год 5)</div></div>
+        <div class="mvp-stat"><div class="num">30+</div><div class="lbl">Опрошено</div></div>
+      </div>
+
+      <div class="mvp-info-card">
+        <h4>🛠️ Стек</h4>
+        <div class="mvp-stack-row">
+          <span class="mvp-stack-tag">React / HTML+JS</span>
+          <span class="mvp-stack-tag">Claude API</span>
+          <span class="mvp-stack-tag">Replit</span>
+          <span class="mvp-stack-tag">Chart.js</span>
+          <span class="mvp-stack-tag">Recharts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" id="nav"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const nav = document.getElementById('nav');
+const counter = document.getElementById('counter');
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.title = `Слайд ${i + 1}`;
+  dot.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  nav.appendChild(dot);
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = Array.from(slides).indexOf(entry.target);
+      document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+      counter.textContent = `${idx + 1} / ${slides.length}`;
+    }
+  });
+}, { threshold: 0.5 });
+
+slides.forEach(s => observer.observe(s));
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  const dots = document.querySelectorAll('.nav-dot');
+  const active = Array.from(dots).findIndex(d => d.classList.contains('active'));
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    const next = Math.min(active + 1, slides.length - 1);
+    slides[next].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    const prev = Math.max(active - 1, 0);
+    slides[prev].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+</script>
+</body>
+</html>
